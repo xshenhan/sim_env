@@ -32,6 +32,8 @@ def merge_data(paths: Tuple[str], save_path: str, shuffle: bool):
         print("Only one path provided, directly copying the data.")
     for path in paths:
         assert os.path.exists(path), f"Path {path} does not exist."
+
+    print(paths)
     
     # check if the save path exists
     if os.path.exists(save_path):

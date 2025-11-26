@@ -2,7 +2,7 @@ from typing import Dict, Tuple, Union
 import torch
 import torch.nn as nn
 import robomimic.utils.obs_utils as ObsUtils
-import robomimic.models.base_nets as rmbn
+import robomimic.models.obs_core as rmco
 import robomimic.models.obs_nets as rmon
 from typing import Dict, Tuple, Union
 
@@ -40,7 +40,7 @@ class RobomimicRgbEncoder(BaseObservationEncoder):
         def crop_randomizer(shape, crop_shape):
             if crop_shape is None:
                 return None
-            return rmbn.CropRandomizer(
+            return rmco.CropRandomizer(
                 input_shape=shape,
                 crop_height=crop_shape[0],
                 crop_width=crop_shape[1],
@@ -51,7 +51,7 @@ class RobomimicRgbEncoder(BaseObservationEncoder):
         def visual_net(shape, crop_shape):
             if crop_shape is not None:
                 shape = (shape[0], crop_shape[0], crop_shape[1])
-            net = rmbn.VisualCore(
+            net = rmco.VisualCore(
                 input_shape=shape,
                 feature_dimension=64,
                 backbone_class='ResNet18Conv',
@@ -111,7 +111,7 @@ class RobomimicRgbEncoder(BaseObservationEncoder):
         if eval_fixed_crop:
             replace_submodules(
                 root_module=obs_encoder,
-                predicate=lambda x: isinstance(x, rmbn.CropRandomizer),
+                predicate=lambda x: isinstance(x, rmco.CropRandomizer),
                 func=lambda x: CropRandomizer(
                     input_shape=x.input_shape,
                     crop_height=x.crop_height,

@@ -24,7 +24,6 @@ from typing import Union
 
 from policy_research.workspace.base_workspace import BaseWorkspace
 from policy_research.dataset.base_dataset import BaseDataset
-from policy_research.dataset.base_iterable_dataset import BaseIterableDataset
 from policy_research.env_runner.base_runner import BaseRunner
 from policy_research.common.checkpoint_util import TopKCheckpointManager
 from policy_research.common.json_logger import JsonLogger

@@ -5,7 +5,6 @@ from diffusers.schedulers.scheduling_ddpm import DDPMScheduler
 from typing import Dict, Optional, Tuple, List, Union
 
 from policy_research.policy.base_policy import BasePolicy
-from policy_research.perception.base_obs_encoder import BaseObservationEncoder
 from policy_research.model.common.normalizer import LinearNormalizer
 from policy_research.model.diffusion.transformer_for_diffusion import TransformerForDiffusion
 from policy_research.model.diffusion.conditional_unet1d import ConditionalUnet1D
@@ -16,7 +15,7 @@ class DiffusionTransformerPolicy(BasePolicy):
         self,
         shape_meta: Dict,
         noise_scheduler: Union[DDIMScheduler, DDPMScheduler],
-        obs_encoder: BaseObservationEncoder,
+        obs_encoder,
         horizon: int,
         n_action_steps: int,
         n_obs_steps: int,
@@ -204,7 +203,7 @@ class DiffusionUnetPolicy(BasePolicy):
         self,
         shape_meta: Dict,
         noise_scheduler: Union[DDIMScheduler, DDPMScheduler],
-        obs_encoder: BaseObservationEncoder,
+        obs_encoder,
         horizon: int,
         n_action_steps: int,
         n_obs_steps: int,
@@ -275,7 +274,7 @@ class DiffusionUnetPolicy(BasePolicy):
             f"  policy : {num_model_params/1e6:.1f}M ({model_trainable_ratio:.5%} trainable)\n"
         )
 
-    def get_observation_encoder(self) -> BaseObservationEncoder:
+    def get_observation_encoder(self):
         return self.obs_encoder
     
     def get_observation_modalities(self) -> List[str]:
