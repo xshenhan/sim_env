@@ -9,6 +9,7 @@ import numpy as np
 from typing import List, Tuple, Optional
 from pyrep.objects.vision_sensor import VisionSensor
 from pyrep.const import RenderMode
+from scipy.spatial.transform import Rotation as R
 
 
 def generate_camera_positions(
@@ -113,26 +114,13 @@ def compute_look_at_orientation(position: List[float], target: List[float]) -> L
     #   +X = right (图像水平方向右方)
     #   +Y = forward (相机视线方向)
     #   +Z = up (图像上方)
-    R = np.zeros((3, 3))
-    R[:, 0] = right      # local X (right)
-    R[:, 1] = forward    # local Y (forward, camera looks along +Y)
-    R[:, 2] = up         # local Z (up)
+    Rot = np.zeros((3, 3))
+    Rot[:, 0] = -right      # local X (right)
+    Rot[:, 1] = up    # local Y (forward, camera looks along +Y)
+    Rot[:, 2] = forward         # local Z (up)
 
-    # Convert rotation matrix to Euler angles (ZYX convention for CoppeliaSim)
-    # alpha (yaw around Z), beta (pitch around Y), gamma (roll around X)
 
-    # Extract Euler angles from rotation matrix
-    beta = np.arctan2(-R[2, 0], np.sqrt(R[0, 0]**2 + R[1, 0]**2))
-
-    if np.abs(np.cos(beta)) > 1e-6:
-        alpha = np.arctan2(R[1, 0] / np.cos(beta), R[0, 0] / np.cos(beta))
-        gamma = np.arctan2(R[2, 1] / np.cos(beta), R[2, 2] / np.cos(beta))
-    else:
-        # Gimbal lock case
-        alpha = 0
-        gamma = np.arctan2(-R[0, 1], R[1, 1])
-
-    return [alpha, beta, gamma]
+    return R.from_matrix(Rot).as_euler('xyz', degrees=False)
 
 
 def create_cameras(

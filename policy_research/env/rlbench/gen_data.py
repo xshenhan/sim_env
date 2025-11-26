@@ -421,7 +421,7 @@ def uniprocess_core(
 @click.option('--save_subtasks', is_flag=True)
 @click.option('--use_multi_cam', is_flag=True, help='Use multi-camera setup (disables default cameras)')
 @click.option('--num_cameras', type=int, default=40, help='Number of cameras in multi-camera mode')
-@click.option('--camera_target', type=float, nargs=3, default=[0.218, 0.0, 1.917],
+@click.option('--camera_target', type=float, nargs=3, default=[0.2500, 0.0000, 0.7520],
               help='Camera look-at target point [x, y, z]')
 @click.option('--camera_radius', type=float, default=.5, help='Camera distance from target')
 @click.option('--camera_fov', type=float, default=40.0, help='Camera field of view (degrees)')
